@@ -9,7 +9,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/contrib/sessions"
-	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -33,7 +32,6 @@ func main() {
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
-	r.Use(static.Serve("/css", static.LocalFile("public/css", true)))
 	layout := "templates/layout.tmpl"
 
 	// session store
