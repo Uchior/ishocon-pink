@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gin-contrib/cache"
 )
 
 var db *sql.DB
@@ -39,8 +40,13 @@ func main() {
 	store.Options(sessions.Options{HttpOnly: true})
 	r.Use(sessions.Sessions("showwin_happy", store))
 
+	// chache 
+	r := gin.Default()
+	
+	store := persistence.NewInMemoryStore(time.Second)
+
 	// GET /
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/", cache.CachePage(store, time.Minute, func(c *gin.Context) {
 		electionResults := getElectionResult()
 
 		// 上位10人と最下位のみ表示
