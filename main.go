@@ -166,9 +166,10 @@ func main() {
 		} else if c.PostForm("keyword") == "" {
 			message = "投票理由を記入してください"
 		} else {
-			for i := 1; i <= voteCount; i++ {
-				createVote(user.ID, candidate.ID, c.PostForm("keyword"))
-			}
+		//	for i := 1; i <= voteCount; i++ {
+		//		createVote(user.ID, candidate.ID, c.PostForm("keyword"))
+		//	}
+			createVote(user.ID, candidate.ID, c.PostForm("keyword"), voteCount)
 			message = "投票に成功しました"
 		}
 		c.HTML(http.StatusOK, "base", gin.H{

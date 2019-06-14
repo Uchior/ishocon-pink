@@ -9,7 +9,7 @@ type Vote struct {
 }
 
 func getVoteCountByCandidateID(candidateID int) (count int) {
-	row := db.QueryRow("SELECT COUNT(*) AS count FROM votes WHERE candidate_id = ?", candidateID)
+	row := db.QueryRow("SELECT SUM(votes_count) AS count FROM votes WHERE candidate_id = ?", candidateID)
 	row.Scan(&count)
 	return
 }
@@ -20,9 +20,9 @@ func getUserVotedCount(userID int) (count int) {
 	return
 }
 
-func createVote(userID int, candidateID int, keyword string) {
-	db.Exec("INSERT INTO votes (user_id, candidate_id, keyword) VALUES (?, ?, ?)",
-		userID, candidateID, keyword)
+func createVote(userID int, candidateID int, keyword string, voteCount int) {
+	db.Exec("INSERT INTO votes (user_id, candidate_id, keyword, votes_count) VALUES (?, ?, ?, ?)",
+		userID, candidateID, keyword, voteCount)
 }
 
 func getVoiceOfSupporter(candidateIDs []int) (voices []string) {
